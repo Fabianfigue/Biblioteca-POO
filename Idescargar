@@ -1,0 +1,9 @@
+using System;
+
+namespace BibliotecaTP
+{
+    public interface Idescargar
+    {
+        public void Descargar(Material Ebook);
+    }
+}
