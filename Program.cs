@@ -6,7 +6,8 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Prueba de push");
-        Console.WriteLine("Si lo ves, hiciste bien el pull");
+        
+
+        Console.ReadKey(true);
     }
 }

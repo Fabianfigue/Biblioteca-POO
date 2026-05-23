@@ -12,10 +12,12 @@ namespace BIBLIOTECATP
         {
             this.telefono = telefono;
         }
-
+        
+        //PROPIEDAD DE ACCESO PUBLICO A PRIVADO
         public string Telefono
         {
             get { return telefono; }
         }
     }
 }
+
