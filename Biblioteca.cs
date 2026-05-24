@@ -89,5 +89,25 @@ namespace BIBLIOTECATP
 
             listaPrestamos.Add(nuevoPrestamo);
         }
+
+        public void RealizarPrestamo(string isbnMaterial, string dniUsuario)
+        {
+            Material materialAPrestar = listaMateriales.FirstOrDefault(m => m.ISBN == isbnMaterial);
+            if (materialAPrestar == null)
+            {
+                throw new Exception("El material con ese ISBN no existe en la biblioteca.");
+            }
+
+            Usuario usuarioSolicitante = listaUsuarios.FirstOrDefault(u => u.DNI == dniUsuario);
+            if (usuarioSolicitante == null)
+            {
+                throw new Exception("El usuario con ese DNI no esta registrado");
+            }
+
+            materialAPrestar.RestarStock();
+
+            Prestamo nuevoPrestamo = new Prestamo(materialAPrestar, usuarioSolicitante);
+            listaPrestamos.Add(nuevoPrestamo);
+        }
     }
 }

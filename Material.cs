@@ -48,6 +48,15 @@ namespace BIBLIOTECATP
         }
 
         //METODOS RestarStock() / SumarStock()
-        //.................
+        
+        public void RestarStock()
+        {
+            if (cantidadDisponible <= 0)
+            {
+                throw new InvalidOperationException("Material no disponible.");
+            }
+
+            cantidadDisponible--;
+        }
     }
 }

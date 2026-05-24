@@ -124,20 +124,12 @@ public class Program
                             Console.Write("Ingrese el ISBN del material que desea eliminar: ");
                             string isbnBuscado = Console.ReadLine();
 
-                            
-                            Console.WriteLine("Buscando material....");
-                            
                             //PAUSA DE 2 SEGUNDOS
+                            //Console.WriteLine("Buscando material....");
                             //Task.Delay(2000).Wait(); 
 
 
-                            //PAUSAR INTERACTIVO
-                            for (int i = 0; i < 4; i++)
-                            {
-                                Thread.Sleep(500); // Pausa corta
-                                Console.Write("."); // Agrega un punto al lado del anterior
-                            }
-                            Console.WriteLine();
+                            MostrarAnimacion("Buscando material en la base de datos");
                             
                             //LLAMADA AL METODO DE BIBLIOTECA
                             biblioteca.EliminarMaterial(isbnBuscado);
@@ -153,10 +145,79 @@ public class Program
                         Console.WriteLine("\nERROR: " + ex.Message);
                         }
                         break;
-                    case 3: Console.WriteLine("3"); 
-                    break;
-                    case 4: Console.WriteLine("4"); 
-                    break;
+                    case 3:
+                        try
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\n--- REGISTRAR NUEVO USUARIO ---");
+
+                            Console.Write("Ingrese el nombre: ");
+                            string nombreUsuario = Console.ReadLine();
+
+                            Console.Write("Ingrese el Apellido: ");
+                            string apellidoUsuario = Console.ReadLine();
+
+                            Console.Write("Ingrese el DNI: ");
+                            string dniUsuario = Console.ReadLine();
+
+                            Console.Write("Ingrese el Telefono: ");
+                            string telefonoUsuario = Console.ReadLine();
+
+                            //ANIMACION DE CARGA
+                            MostrarAnimacion("Registrando usuario en el sistema");
+
+                            //INSTANCIAMOS EL USUARIO
+                            Usuario nuevoUsuario = new Usuario(nombreUsuario, apellidoUsuario, dniUsuario, telefonoUsuario);
+
+                            //USAMOS METODO DE BIBLIOTECA
+                            biblioteca.AgregarUsuario(nuevoUsuario);
+
+                            Console.WriteLine("\n Usuario registrado exitosamente!");
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            //Si ya existe el DNI:
+                            Console.WriteLine("\nATENCIÓN: " + ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("\nERROR: " + ex.Message);
+                        }
+                        Console.WriteLine("\n---Presione una tecla para volver al menú---");
+                        Console.ReadKey(true);
+                        break;
+                    case 4:
+                        try
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\n--- REALIZAR PRESTAMO ---");
+
+                            Console.Write("Ingrese el ISBN del material que desea llevar: ");
+                            string isbnPrestamo = Console.ReadLine();
+
+                            Console.Write("Ingrese el DNI del usuario: ");
+                            string dniPrestamo = Console.ReadLine();
+
+                            MostrarAnimacion("Procesando prestamo");
+
+                            biblioteca.RealizarPrestamo(isbnPrestamo, dniPrestamo);
+
+                            Console.WriteLine("\n Prestamo registrado exitosamente!");
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            //Excepcion de material no disponible
+                            Console.WriteLine("\nATENCION: " + ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            //Si el usuario o el ISBN no existen
+                            Console.WriteLine("\nERROR: " + ex.Message);
+                        }
+
+                        Console.WriteLine("\n --- Presione una tecla para volver al menu ---");
+                        Console.ReadKey(true);
+                        break;
                     case 5: Console.WriteLine("5"); 
                     break;
                     case 6: Console.WriteLine("6"); 
@@ -183,6 +244,18 @@ public class Program
         }
         
         Console.ReadKey(true); 
+    }
+
+    //FUNCION ANIMACION DE CARGA
+    public static void MostrarAnimacion(string mensaje)
+    {
+        Console.WriteLine("\n" + mensaje);
+        for (int i = 0; i < 5; i++) //Cantidad de puntos a repetir
+        {
+            Thread.Sleep(500); //Pausa de medio segundo
+            Console.Write(".");
+        }
+        Console.WriteLine(); //Salto de linea
     }
 
         
