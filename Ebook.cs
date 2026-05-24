@@ -1,7 +1,7 @@
 using System;                                                                                     
 using BIBLIOTECATP;
 
-public class Ebook : Material
+public class Ebook : Material, IDescargar
 {
     private string formato;
     //CONSTRUCTOR

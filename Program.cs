@@ -11,7 +11,8 @@ namespace BIBLIOTECATP;
 public class Program
 {
     public static void Main(string[] args)
-    {
+    {   
+        Console.Clear();
         Biblioteca biblioteca = new Biblioteca("Alejandria");
         bool salir = false; 
         
@@ -58,7 +59,7 @@ public class Program
                                 Console.ReadKey(true);
                                 break;
                             }
-
+                            Console.Clear();
                             // Pedimos los datos que son COMUNES a todos los materiales
                             Console.Write("Ingrese el ISBN: ");
                             string isbn = Console.ReadLine();
@@ -97,6 +98,8 @@ public class Program
                                     nuevoMaterial = new Ebook(isbn, titulo, autor, anio, cantidad, formato);
                                     break;
                             }
+
+                            MostrarAnimacion("Cargando material.");
 
                             // Guardamos el objeto en la lista de la biblioteca
                             biblioteca.AgregarMaterial(nuevoMaterial);
@@ -218,16 +221,90 @@ public class Program
                         Console.WriteLine("\n --- Presione una tecla para volver al menu ---");
                         Console.ReadKey(true);
                         break;
-                    case 5: Console.WriteLine("5"); 
-                    break;
-                    case 6: Console.WriteLine("6"); 
-                    break;
-                    case 7: Console.WriteLine("7"); 
-                    break;
-                    case 8: Console.WriteLine("8"); 
-                    break;
+                    case 5:
+                        Console.Clear();
+                        Console.WriteLine("\n--- LISTADO DE MATERIALES ---");
+                        //Verificamos si la lista esta vacia
+                        if (biblioteca.Materiales.Count == 0)
+                        {
+                            Console.WriteLine("No se encontraron materiales, primero registrelos.");
+                        }
+                        else
+                        {
+                            foreach(Material mat in biblioteca.Materiales)
+                            {
+                                Console.WriteLine("ISBN: {0} | Titutlo: {1} | Autor: {2} | Stock: {3}", mat.ISBN, mat.Titulo, mat.Autor, mat.CantidadDisponible);
+                            }
+                        }
+                        Console.WriteLine("\n---Presione una tecla para volver al menu---");
+                        Console.ReadKey(true);
+                        break;
+                    case 6:
+                        Console.Clear();
+                        Console.WriteLine("\n--- LISTADO DE USUARIOS ---");
+
+                        if (biblioteca.Usuarios.Count == 0)
+                        {
+                            Console.WriteLine("No se encontraron usuarios registrados, primero registrelos.");
+                        }
+                        else
+                            {
+                                foreach(Usuario usr in biblioteca.Usuarios)
+                                {
+                                    Console.WriteLine("Nombre: {0} {1} | DNI: {2} | Telefono: {3}", usr.Nombre,usr.Apellido,usr.DNI,usr.Telefono);
+                                }
+                            }
+                        Console.WriteLine("\n---Presione una tecla para volver al menu---");
+                        Console.ReadKey(true);
+                        break;
+                    case 7:
+                        Console.Clear();
+                        Console.WriteLine("\n--- HISTORIAL DE PRÉSTAMOS ---");
+
+                        if (biblioteca.Prestamos.Count == 0)
+                        {
+                            Console.WriteLine("No se encontraron préstamos registrados.");
+                        }
+                        else
+                            {
+                                
+                                foreach(Prestamo pres in biblioteca.Prestamos)
+                                {
+                                    string textoFormato = "";
+                                    if (pres.MaterialPrestado is Ebook miEbook)
+                                {
+                                    textoFormato = " | Formato: " + miEbook.Formato;
+                                }
+                                    Console.WriteLine("Fecha: {0} | Material: {1} | Usuario: {2} {3} | DNI: {4}", pres.FechaDelPrestamo,pres.MaterialPrestado,pres.UsuarioAsignado.Nombre,pres.UsuarioAsignado.Apellido,pres.UsuarioAsignado.DNI,textoFormato);
+                                }
+                            }
+                        Console.WriteLine("\n---Presione una tecla para volver al menu---");
+                        Console.ReadKey(true);
+                        break;
+                    case 8: 
+                        Console.Clear();
+                        Console.WriteLine("\n--- MATERIALES DESCARGABLES");
+
+                        bool hayDescargables = false;
+
+                        foreach (Material mat in biblioteca.Materiales)
+                        {
+                            if (mat is IDescargar)
+                            {
+                                Console.WriteLine("ISBN: {0} | Título: {1} | Autor: {2} | Stock: {3}", mat.ISBN, mat.Titulo, mat.Autor, mat.CantidadDisponible);
+                            }
+                            else if (!hayDescargables)
+                            {
+                            Console.WriteLine("No hay materiales descargables en este momento.");
+                            }
+                        }
+
+                        
+                        Console.WriteLine("\n---Presione una tecla para volver al menú---");
+                        Console.ReadKey(true);
+                        break;
                     default: Console.WriteLine("Saliendo...");
-                    break; 
+                        break;
                 }
                     Console.WriteLine("1. Agregar un material a la biblioteca.");
                     Console.WriteLine("2. Eliminar un material utilizando el ISBN.");
@@ -257,6 +334,4 @@ public class Program
         }
         Console.WriteLine(); //Salto de linea
     }
-
-        
 }

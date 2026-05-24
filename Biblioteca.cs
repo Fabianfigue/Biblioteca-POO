@@ -32,12 +32,13 @@ namespace BIBLIOTECATP
             get { return nombre; }
         }
 
-        
-        
-        
+
 
         //IReadOnlyList funciona como un get, para mirar y tambien recorrer los datos de la lista. no se puede agregar ni eliminar nada con esta propiedad.
+        public IReadOnlyList<Material> Materiales => listaMateriales.AsReadOnly();
         public IReadOnlyList<Usuario> Usuarios => listaUsuarios.AsReadOnly();
+        public IReadOnlyList<Prestamo> Prestamos => listaPrestamos.AsReadOnly();
+
 
         //METODO AGREGAR USUARIO CON VALIDACION
         public void AgregarUsuario(Usuario nuevoUsuario)
@@ -92,12 +93,14 @@ namespace BIBLIOTECATP
 
         public void RealizarPrestamo(string isbnMaterial, string dniUsuario)
         {
+
+            //BUSCAMOS MATERIAL POR ISBN
             Material materialAPrestar = listaMateriales.FirstOrDefault(m => m.ISBN == isbnMaterial);
             if (materialAPrestar == null)
             {
                 throw new Exception("El material con ese ISBN no existe en la biblioteca.");
             }
-
+            //BUSCAMOS USUARIO POR DNI
             Usuario usuarioSolicitante = listaUsuarios.FirstOrDefault(u => u.DNI == dniUsuario);
             if (usuarioSolicitante == null)
             {

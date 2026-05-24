@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 
 namespace BIBLIOTECATP
 {
-    public interface Idescargar
+    public interface IDescargar
     {
         void Descargar();
     }
