@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace BIBLIOTECATP;
 public class Program
@@ -36,83 +39,120 @@ public class Program
                 switch(opcion)
                 {
                     case 1: 
-                    try{
-                        Console.Clear();
-                        Console.WriteLine("\n--- AGREGAR NUEVO MATERIAL ---");
-                        Console.WriteLine("¿Qué tipo de material desea agregar?");
-                        Console.WriteLine(" 1. Libro");
-                        Console.WriteLine(" 2. Revista");
-                        Console.WriteLine(" 3. Ebook");
-                        Console.Write(" -Seleccione una opción: ");
-                        
-                        // Leemos qué tipo de material quiere cargar
-                        int tipoMaterial = Convert.ToInt32(Console.ReadLine());
+                        try{
+                            Console.Clear();
+                            Console.WriteLine("\n--- AGREGAR NUEVO MATERIAL ---");
+                            Console.WriteLine("¿Qué tipo de material desea agregar?");
+                            Console.WriteLine(" 1. Libro");
+                            Console.WriteLine(" 2. Revista");
+                            Console.WriteLine(" 3. Ebook");
+                            Console.Write(" -Seleccione una opción: ");
+                            
+                            // Leemos qué tipo de material quiere cargar
+                            int tipoMaterial = Convert.ToInt32(Console.ReadLine());
 
-                        // Si elige algo distinto a 1, 2 o 3, cortamos la ejecución del case
-                        if (tipoMaterial < 1 || tipoMaterial > 3)
-                        {
-                            Console.WriteLine("\nERROR: Opción de material no válida.");
+                            // Si elige algo distinto a 1, 2 o 3, cortamos la ejecución del case
+                            if (tipoMaterial < 1 || tipoMaterial > 3)
+                            {
+                                Console.WriteLine("\nERROR: Opción de material no válida.");
+                                Console.ReadKey(true);
+                                break;
+                            }
+
+                            // Pedimos los datos que son COMUNES a todos los materiales
+                            Console.Write("Ingrese el ISBN: ");
+                            string isbn = Console.ReadLine();
+
+                            Console.Write("Ingrese el Título: ");
+                            string titulo = Console.ReadLine();
+
+                            Console.Write("Ingrese el Autor: ");
+                            string autor = Console.ReadLine();
+
+                            Console.Write("Ingrese el Año de Publicación: ");
+                            int anio = Convert.ToInt32(Console.ReadLine());
+
+                            Console.Write("Ingrese la Cantidad Disponible: ");
+                            int cantidad = Convert.ToInt32(Console.ReadLine());
+
+                            // Declaramos una variable del tipo BASE
+                            Material nuevoMaterial = null;
+
+                            // Instanciamos el objeto específico según la opción elegida
+                            switch (tipoMaterial)
+                            {
+                                case 1:
+                                    Console.Write("Ingrese el genero: ");
+                                    string generoLibro = Console.ReadLine();
+                                    nuevoMaterial = new Libro(isbn, titulo, autor, anio, cantidad, generoLibro);
+                                    break;
+                                case 2:
+                                    Console.Write("Ingrese el genero: ");
+                                    string generoRevista = Console.ReadLine();
+                                    nuevoMaterial = new Revista(isbn, titulo, autor, anio, cantidad, generoRevista);
+                                    break;
+                                case 3:
+                                    Console.Write("Ingrese el formato del material: ");
+                                    string formato = Console.ReadLine();
+                                    nuevoMaterial = new Ebook(isbn, titulo, autor, anio, cantidad, formato);
+                                    break;
+                            }
+
+                            // Guardamos el objeto en la lista de la biblioteca
+                            biblioteca.AgregarMaterial(nuevoMaterial);
+                            
+                            Console.WriteLine("\n¡Material agregado exitosamente a la biblioteca!");
+                            Console.WriteLine("---Presione una tecla para volver al menu---");
                             Console.ReadKey(true);
-                            break;
                         }
-
-                        // Pedimos los datos que son COMUNES a todos los materiales
-                        Console.Write("Ingrese el ISBN: ");
-                        string isbn = Console.ReadLine();
-
-                        Console.Write("Ingrese el Título: ");
-                        string titulo = Console.ReadLine();
-
-                        Console.Write("Ingrese el Autor: ");
-                        string autor = Console.ReadLine();
-
-                        Console.Write("Ingrese el Año de Publicación: ");
-                        int anio = Convert.ToInt32(Console.ReadLine());
-
-                        Console.Write("Ingrese la Cantidad Disponible: ");
-                        int cantidad = Convert.ToInt32(Console.ReadLine());
-
-                        // Declaramos una variable del tipo BASE
-                        Material nuevoMaterial = null;
-
-                        // Instanciamos el objeto específico según la opción elegida
-                        switch (tipoMaterial)
+                        catch (FormatException) // Captura el error si el usuario escribe letras en lugar de números
                         {
-                            case 1:
-                                Console.Write("Ingrese el genero: ");
-                                string generoLibro = Console.ReadLine();
-                                nuevoMaterial = new Libro(isbn, titulo, autor, anio, cantidad, generoLibro);
-                                break;
-                            case 2:
-                                Console.Write("Ingrese el genero: ");
-                                string generoRevista = Console.ReadLine();
-                                nuevoMaterial = new Revista(isbn, titulo, autor, anio, cantidad, generoRevista);
-                                break;
-                            case 3:
-                                Console.Write("Ingrese el formato del material: ");
-                                string formato = Console.ReadLine();
-                                nuevoMaterial = new Ebook(isbn, titulo, autor, anio, cantidad, formato);
-                                break;
+                            Console.WriteLine("\nERROR: El año de publicacion y la cantidad deben ser numeros enteros.");
+                            Console.ReadKey(true);
                         }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("\nERROR: " + ex.Message);
+                            Console.ReadKey(true);
+                        }
+                        break;
+                    case 2:
+                        try
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\n--- ELIMINAR MATERIAL ---");
+                            Console.Write("Ingrese el ISBN del material que desea eliminar: ");
+                            string isbnBuscado = Console.ReadLine();
 
-                        // Guardamos el objeto en la lista de la biblioteca
-                        biblioteca.AgregarMaterial(nuevoMaterial);
-                        
-                        Console.WriteLine("\n¡Material agregado exitosamente a la biblioteca!");
-                    }
-                    catch (FormatException) // Captura el error si el usuario escribe letras en lugar de números
-                    {
-                        Console.WriteLine("\nERROR: El año de publicacion y la cantidad deben ser numeros enteros.");
-                        Console.ReadKey(true);
-                    }
-                    catch (Exception ex)
-                    {
+                            
+                            Console.WriteLine("Buscando material....");
+                            
+                            //PAUSA DE 2 SEGUNDOS
+                            //Task.Delay(2000).Wait(); 
+
+
+                            //PAUSAR INTERACTIVO
+                            for (int i = 0; i < 4; i++)
+                            {
+                                Thread.Sleep(500); // Pausa corta
+                                Console.Write("."); // Agrega un punto al lado del anterior
+                            }
+                            Console.WriteLine();
+                            
+                            //LLAMADA AL METODO DE BIBLIOTECA
+                            biblioteca.EliminarMaterial(isbnBuscado);
+
+                            Console.WriteLine("\n Material eliminado exitosamente!");
+                            
+                            Console.WriteLine("---Presione una tecla para volver al menu---");
+                            Console.ReadKey(true);
+                        }
+                        catch (Exception ex)
+                        {
+                        //Si no existe lanzamos excepcion
                         Console.WriteLine("\nERROR: " + ex.Message);
-                        Console.ReadKey(true);
-                    }
-                    break;
-                    case 2: Console.WriteLine("2");
-                    break;
+                        }
+                        break;
                     case 3: Console.WriteLine("3"); 
                     break;
                     case 4: Console.WriteLine("4"); 

@@ -66,6 +66,22 @@ namespace BIBLIOTECATP
             listaMateriales.Add(nuevoMaterial);
         }
 
+        public void EliminarMaterial(string isbnBuscado)
+        {
+            // .FirstOrDefault() para buscar en la lista y devolver el elemento que coincida con el ISBN o un valor null
+            Material materialAEliminar = listaMateriales.FirstOrDefault(m => m.ISBN == isbnBuscado);
+
+            // Si lo encuentra, lo borramos. Si es null, da error.
+            if (materialAEliminar != null)
+            {
+                listaMateriales.Remove(materialAEliminar);
+            }
+            else
+            {
+                throw new InvalidOperationException("No se encontró ningún material con el ISBN: " + isbnBuscado);
+            }
+        }
+
         public void AgregarPrestamo(Prestamo nuevoPrestamo)
         {
             if (nuevoPrestamo == null)
