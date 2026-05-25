@@ -4,7 +4,7 @@ namespace BIBLIOTECATP
 {
     public class Material
     {
-        //ATRIBUTOS
+        //ATRIBUTOS PRIVADOS
         private string isbn;
         private string titulo;
         private string autor;
@@ -21,7 +21,7 @@ namespace BIBLIOTECATP
             this.cantidadDisponible = cantidadDisponible;
         }
 
-        //PROPIEDADES
+        //PROPIEDADES DE ACCESO PUBLICO
         public string ISBN
         {
             get { return isbn; }
@@ -47,8 +47,7 @@ namespace BIBLIOTECATP
             get { return cantidadDisponible; }
         }
 
-        //METODOS RestarStock() / SumarStock()
-        
+        //METODOS
         public void RestarStock()
         {
             if (cantidadDisponible <= 0)

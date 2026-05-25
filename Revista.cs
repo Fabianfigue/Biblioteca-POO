@@ -16,6 +16,4 @@ public class Revista : Material
     {
         get { return genero; }
     }
-
-    //METODOS
 }

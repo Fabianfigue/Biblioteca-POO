@@ -4,7 +4,7 @@ namespace BIBLIOTECATP
 {
     public class Usuario : Persona
     {
-        //PROPIEDAD DE USUARIO
+        //ATRIBUTO PRIVADO
         private string telefono;
 
         //CONSTRUCTOR
