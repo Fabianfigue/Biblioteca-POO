@@ -1,3 +1,11 @@
+﻿/*
+ * Creado por SharpDevelop.
+ * Usuario: JORGE
+ * Fecha: 24/05/2026
+ * Hora: 23:15
+ * 
+ * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
+ */
 using System;
 
 namespace BIBLIOTECATP

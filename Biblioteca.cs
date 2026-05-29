@@ -1,3 +1,11 @@
+﻿/*
+ * Creado por SharpDevelop.
+ * Usuario: JORGE
+ * Fecha: 24/05/2026
+ * Hora: 23:11
+ * 
+ * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
+ */
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -17,7 +25,6 @@ namespace BIBLIOTECATP
         
         private List<Material> listaMateriales = new List<Material> ();
         private List<Usuario> listaUsuarios = new List<Usuario> ();
-        
         private List<Prestamo> listaPrestamos = new List<Prestamo> ();
         
 
@@ -35,16 +42,18 @@ namespace BIBLIOTECATP
 
 
         //IReadOnlyList funciona como un get, para mirar y tambien recorrer los datos de la lista. no se puede agregar ni eliminar nada con esta propiedad.
-        public IReadOnlyList<Material> Materiales => listaMateriales.AsReadOnly();
-        public IReadOnlyList<Usuario> Usuarios => listaUsuarios.AsReadOnly();
-        public IReadOnlyList<Prestamo> Prestamos => listaPrestamos.AsReadOnly();
+        
+        public IReadOnlyList<Material> Materiales() { return listaMateriales.AsReadOnly(); }
+        public IReadOnlyList<Usuario> Usuarios() { return listaUsuarios.AsReadOnly(); }
+        public IReadOnlyList<Prestamo> Prestamos() { return listaPrestamos.AsReadOnly(); }
 
 
         //METODO AGREGAR USUARIO CON VALIDACION
         public void AgregarUsuario(Usuario nuevoUsuario)
         {
             if (nuevoUsuario == null)
-                throw new ArgumentNullException(nameof(nuevoUsuario));
+                //throw new ArgumentNullException(nameof(nuevoUsuario));
+            	throw new ArgumentNullException("nuevoUsuario");
 
             //.Any() recorre la lista de usuarios y verifica si hay alguien con el mismo DNI
             bool yaExiste = listaUsuarios.Any(u => u.DNI == nuevoUsuario.DNI);
@@ -62,8 +71,8 @@ namespace BIBLIOTECATP
         public void AgregarMaterial(Material nuevoMaterial)
         {
             if (nuevoMaterial == null)
-                throw new ArgumentNullException(nameof(nuevoMaterial));
-
+                //throw new ArgumentNullException(nameof(nuevoMaterial));
+				throw new ArgumentNullException("nuevoMaterial");
             listaMateriales.Add(nuevoMaterial);
         }
 
@@ -86,8 +95,8 @@ namespace BIBLIOTECATP
         public void AgregarPrestamo(Prestamo nuevoPrestamo)
         {
             if (nuevoPrestamo == null)
-                throw new ArgumentNullException(nameof(nuevoPrestamo));
-
+                //throw new ArgumentNullException(nameof(nuevoPrestamo));
+				throw new ArgumentNullException("nuevoPrestamo");
             listaPrestamos.Add(nuevoPrestamo);
         }
 
